@@ -1,4 +1,4 @@
-package com.expenses.manager.model;
+package com.expenses.manager.firebase;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ public class FirestoreInstance {
     public static Firestore getFirestoreInstance() {
         System.out.println("FirestoreInstance.getFirestoreInstance() --> is called");
         if (firestoreDB == null) {
-            System.out.println("FirestoreInstance.getFirestoreInstance() --> Firestore instance is null");
+            System.out.println("FirestoreInstance.getFirestoreInstance() --> Establishing connection with Firebase db");
             try {
                 InputStream serviceAccount = new FileInputStream(
                         "src/main/resources/static/spring-firebase-app-file.json");
