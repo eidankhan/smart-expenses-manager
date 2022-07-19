@@ -3,6 +3,7 @@ package com.expenses.manager.model;
 import java.util.Date;
 
 public class Expense {
+    private Integer id;
     private Date entryDate;
     private Long amount;
     private String description;
@@ -11,7 +12,8 @@ public class Expense {
 
     }
 
-    public Expense(Date entryDate, Long amount, String description) {
+    public Expense(Integer id, Date entryDate, Long amount, String description) {
+        this.id = id;
         this.entryDate = entryDate;
         this.amount = amount;
         this.description = description;
@@ -44,6 +46,14 @@ public class Expense {
     @Override
     public String toString() {
         return "Expense [amount=" + amount + ", description=" + description + ", entryDate=" + entryDate + "]";
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }
