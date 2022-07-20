@@ -1,5 +1,7 @@
 package com.expenses.manager.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import com.expenses.manager.model.Expense;
@@ -13,5 +15,10 @@ public class ConverterHelper {
         Map<String, Object> convertedValue = objectMapper.convertValue(expense, Map.class);
         System.out.println("Converted Value --> " + convertedValue);
         return convertedValue;
+    }
+    
+    public static String convertMillisecondsToDateString(Long milliseconds) {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	return dateFormat.format(new Date(milliseconds));
     }
 }

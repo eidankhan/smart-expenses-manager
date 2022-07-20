@@ -1,60 +1,58 @@
 package com.expenses.manager.model;
 
-import java.util.Date;
-
 public class Expense {
-    private Integer id;
-    private Long amount;
-    private String description;
-    private Date timestamp;
+	private Integer id;
+	private Double amount;
+	private String description;
+	private Long entryDate;
 
-    public Expense() {
+	public Expense() {
 
-    }
+	}
 
-    public Expense(Integer id, Long amount, String description, Date timestamp) {
-        this.id = id;
-        this.amount = amount;
-        this.description = description;
-        this.timestamp = timestamp;
-    }
+	public Expense(Integer id, Double amount, String description, Long entryDate) {
+		this.id = id;
+		this.amount = amount;
+		this.description = description;
+		this.entryDate = entryDate;
+	}
 
-    public Long getAmount() {
-        return amount;
-    }
+	@Override
+	public String toString() {
+		return "Expense [id=" + id + ", amount=" + amount + ", description=" + description + ", entryDate=" + entryDate
+				+ "]";
+	}
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
+	public Long getEntryDate() {
+		return entryDate;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setEntryDate(Long entryDate) {
+		this.entryDate = entryDate;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public Double getAmount() {
+		return amount;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    @Override
-    public String toString() {
-        return "Expense [amount=" + amount + ", description=" + description + ", id=" + id + ", timestamp=" + timestamp
-                + "]";
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 }

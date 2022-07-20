@@ -13,6 +13,7 @@ import com.expenses.manager.firebase.FirestoreInstance;
 import com.expenses.manager.model.Expense;
 import com.expenses.manager.model.GenericResponse;
 import com.expenses.manager.repository.ExpenseRepository;
+import com.expenses.manager.transformers.ExpenseTransformer;
 import com.expenses.manager.util.ResponseCode;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -66,10 +67,6 @@ public class ExpenseService implements ExpenseRepository {
         ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
         try {
             Expense expense = apiFuture.get().toObject(Expense.class);
-            if (expense.getTimestamp() != null) {
-                Date timestamp = expense.getTimestamp();
-                System.out.println("Month:" + timestamp.getMonth());
-            }
             response.setCode(ResponseCode.SUCCESS.getCode());
             response.setMessage(ResponseCode.SUCCESS.getMessage());
             response.setData(expense);
@@ -94,9 +91,10 @@ public class ExpenseService implements ExpenseRepository {
         try {
             String documentUpdateTime = createdDocument.get().getUpdateTime().toString();
             System.out.println("UserService.getAll() --> Document Updated At " + documentUpdateTime);
+            //-- Transfer expense to expenseDTO
             response.setCode(ResponseCode.SUCCESS.getCode());
             response.setMessage(ResponseCode.SUCCESS.getMessage());
-            response.setData(expense);
+            response.setData(ExpenseTransformer.convertExpenseToExpenseDTO(expense));
             return response;
         } catch (InterruptedException | ExecutionException e) {
             response.setCode(ResponseCode.INVALID_DATA.getCode());
@@ -159,8 +157,8 @@ public class ExpenseService implements ExpenseRepository {
     private List<Expense> filterDataByMonth(Integer monthIndex) {
         System.out.println("UserService.filterDataByMonth() --> is called");
         List<Expense> expenses = getAll();
-        expenses = expenses.stream().filter(ele -> ele.getTimestamp().getMonth() == monthIndex)
-                .collect(Collectors.toList());
+//        expenses = expenses.stream().filter(ele -> ele.getTimestamp().getMonth() == monthIndex)
+//                .collect(Collectors.toList());
         return expenses;
     }
 }
