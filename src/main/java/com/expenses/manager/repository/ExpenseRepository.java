@@ -17,4 +17,7 @@ public interface ExpenseRepository {
     public GenericResponse updateById(Integer id, Expense expense);
 
     public GenericResponse deleteById(Integer id);
+
+    public GenericResponse findAllByCurrentMonth();
+
 }

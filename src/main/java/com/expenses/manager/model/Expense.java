@@ -1,28 +1,22 @@
 package com.expenses.manager.model;
 
+import java.util.Date;
+
 public class Expense {
     private Integer id;
-    private String entryDate;
     private Long amount;
     private String description;
+    private Date timestamp;
 
     public Expense() {
 
     }
 
-    public Expense(Integer id, String entryDate, Long amount, String description) {
+    public Expense(Integer id, Long amount, String description, Date timestamp) {
         this.id = id;
-        this.entryDate = entryDate;
         this.amount = amount;
         this.description = description;
-    }
-
-    public String getEntryDate() {
-        return entryDate;
-    }
-
-    public void setEntryDate(String entryDate) {
-        this.entryDate = entryDate;
+        this.timestamp = timestamp;
     }
 
     public Long getAmount() {
@@ -41,17 +35,26 @@ public class Expense {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "Expense [amount=" + amount + ", description=" + description + ", entryDate=" + entryDate + "]";
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "Expense [amount=" + amount + ", description=" + description + ", id=" + id + ", timestamp=" + timestamp
+                + "]";
     }
 
 }
