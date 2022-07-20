@@ -18,7 +18,9 @@ public class ConverterHelper {
     }
     
     public static String convertMillisecondsToDateString(Long milliseconds) {
+    	String date = "";
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    	return dateFormat.format(new Date(milliseconds));
+    	date = milliseconds == null ? "" : dateFormat.format(new Date(milliseconds));
+    	return date;
     }
 }

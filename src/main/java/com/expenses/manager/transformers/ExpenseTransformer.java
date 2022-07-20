@@ -8,7 +8,6 @@ public class ExpenseTransformer {
 	
 	public static ExpenseDTO convertExpenseToExpenseDTO(Expense expense) {
 		ExpenseDTO expenseDTO = new ExpenseDTO();
-		expenseDTO.setId(expense.getId());
 		expenseDTO.setAmount(expense.getAmount());
 		expenseDTO.setDescription(expense.getDescription());
 		expenseDTO.setDate(ConverterHelper.convertMillisecondsToDateString(expense.getEntryDate()));

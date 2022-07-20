@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.expenses.manager.firebase.FirestoreInstance;
 import com.expenses.manager.model.Expense;
 import com.expenses.manager.model.GenericResponse;
+import com.expenses.manager.model.dto.ExpenseDTO;
 import com.expenses.manager.repository.ExpenseRepository;
 import com.expenses.manager.transformers.ExpenseTransformer;
 import com.expenses.manager.util.ResponseCode;
@@ -32,14 +33,14 @@ public class ExpenseService implements ExpenseRepository {
         GenericResponse response = new GenericResponse();
         Firestore firestoreDB = FirestoreInstance.getFirestoreInstance();
         ApiFuture<QuerySnapshot> apiFuture = firestoreDB.collection("expenses").get();
-        List<Expense> expenses = new ArrayList<Expense>();
+        List<ExpenseDTO> expenses = new ArrayList<ExpenseDTO>();
         try {
             List<QueryDocumentSnapshot> documents = apiFuture.get().getDocuments();
             System.out.println("Iterating documents list -->>");
             for (QueryDocumentSnapshot document : documents) {
                 Expense expense = document.toObject(Expense.class);
                 System.out.println(expense);
-                expenses.add(expense);
+                expenses.add(ExpenseTransformer.convertExpenseToExpenseDTO(expense));
             }
 
             if (documents.size() > 0) {
@@ -52,6 +53,7 @@ public class ExpenseService implements ExpenseRepository {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+        System.out.println("No Data found");
         response.setCode(ResponseCode.NO_CONTENT.getCode());
         response.setMessage(ResponseCode.NO_CONTENT.getMessage());
         response.setData(null);
@@ -69,7 +71,7 @@ public class ExpenseService implements ExpenseRepository {
             Expense expense = apiFuture.get().toObject(Expense.class);
             response.setCode(ResponseCode.SUCCESS.getCode());
             response.setMessage(ResponseCode.SUCCESS.getMessage());
-            response.setData(expense);
+            response.setData(ExpenseTransformer.convertExpenseToExpenseDTO(expense));
             return response;
 
         } catch (InterruptedException | ExecutionException e) {
@@ -86,7 +88,7 @@ public class ExpenseService implements ExpenseRepository {
         System.out.println("UserService.getAll() --> is called");
         GenericResponse response = new GenericResponse();
         Firestore firestoreDB = FirestoreInstance.getFirestoreInstance();
-        ApiFuture<WriteResult> createdDocument = firestoreDB.collection("expenses").document(expense.getId().toString())
+        ApiFuture<WriteResult> createdDocument = firestoreDB.collection("expenses").document(expense.getEntryDate().toString())
                 .create(expense);
         try {
             String documentUpdateTime = createdDocument.get().getUpdateTime().toString();

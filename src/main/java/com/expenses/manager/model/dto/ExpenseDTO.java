@@ -1,7 +1,6 @@
 package com.expenses.manager.model.dto;
 
 public class ExpenseDTO {
-	private Integer id;
 	private Double amount;
 	private String description;
 	private String date;
@@ -9,21 +8,13 @@ public class ExpenseDTO {
 	public ExpenseDTO() {
 	}
 
-	public ExpenseDTO(Integer id, Double amount, String description, String date) {
+	public ExpenseDTO(Double amount, String description, String date) {
 		super();
-		this.id = id;
 		this.amount = amount;
 		this.date = date;
 		this.description = description;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public Double getAmount() {
 		return amount;
@@ -51,7 +42,7 @@ public class ExpenseDTO {
 
 	@Override
 	public String toString() {
-		return "ExpenseDTO [id=" + id + ", amount=" + amount + ", description=" + description + ", date=" + date + "]";
+		return "ExpenseDTO [amount=" + amount + ", description=" + description + ", date=" + date + "]";
 	}
 
 }

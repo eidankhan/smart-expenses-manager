@@ -1,7 +1,6 @@
 package com.expenses.manager.model;
 
 public class Expense {
-	private Integer id;
 	private Double amount;
 	private String description;
 	private Long entryDate;
@@ -10,8 +9,7 @@ public class Expense {
 
 	}
 
-	public Expense(Integer id, Double amount, String description, Long entryDate) {
-		this.id = id;
+	public Expense(Double amount, String description, Long entryDate) {
 		this.amount = amount;
 		this.description = description;
 		this.entryDate = entryDate;
@@ -19,7 +17,7 @@ public class Expense {
 
 	@Override
 	public String toString() {
-		return "Expense [id=" + id + ", amount=" + amount + ", description=" + description + ", entryDate=" + entryDate
+		return "Expense [amount=" + amount + ", description=" + description + ", entryDate=" + entryDate
 				+ "]";
 	}
 
@@ -45,14 +43,6 @@ public class Expense {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 }
