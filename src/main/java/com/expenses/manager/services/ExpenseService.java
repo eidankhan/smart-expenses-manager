@@ -15,6 +15,7 @@ import com.expenses.manager.model.GenericResponse;
 import com.expenses.manager.model.dto.ExpenseDTO;
 import com.expenses.manager.repository.ExpenseRepository;
 import com.expenses.manager.transformers.ExpenseTransformer;
+import com.expenses.manager.util.DateUtil;
 import com.expenses.manager.util.ResponseCode;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -88,12 +89,13 @@ public class ExpenseService implements ExpenseRepository {
         System.out.println("UserService.getAll() --> is called");
         GenericResponse response = new GenericResponse();
         Firestore firestoreDB = FirestoreInstance.getFirestoreInstance();
-        ApiFuture<WriteResult> createdDocument = firestoreDB.collection("expenses").document(expense.getEntryDate().toString())
+        ApiFuture<WriteResult> createdDocument = firestoreDB.collection("expenses")
+                .document(expense.getEntryDate().toString())
                 .create(expense);
         try {
             String documentUpdateTime = createdDocument.get().getUpdateTime().toString();
             System.out.println("UserService.getAll() --> Document Updated At " + documentUpdateTime);
-            //-- Transfer expense to expenseDTO
+            // -- Transfer expense to expenseDTO
             response.setCode(ResponseCode.SUCCESS.getCode());
             response.setMessage(ResponseCode.SUCCESS.getMessage());
             response.setData(ExpenseTransformer.convertExpenseToExpenseDTO(expense));
@@ -124,12 +126,12 @@ public class ExpenseService implements ExpenseRepository {
     public GenericResponse findAllByCurrentMonth() {
         System.out.println("UserService.findAllByCurrentMonth() --> is called");
         GenericResponse response = new GenericResponse();
-        Integer monthIndex = LocalDate.now().getMonth().getValue() - 1;
-        List<Expense> currentMonthExpenses = filterDataByMonth(monthIndex);
+        List<ExpenseDTO> currentMonthExpenses = filterDataByMonth(DateUtil.getCurrentMonth());
         if (currentMonthExpenses.size() > 0) {
             response.setCode(ResponseCode.SUCCESS.getCode());
             response.setMessage(ResponseCode.SUCCESS.getMessage());
             response.setData(currentMonthExpenses);
+
             return response;
         }
         response.setCode(ResponseCode.NO_CONTENT.getCode());
@@ -156,11 +158,17 @@ public class ExpenseService implements ExpenseRepository {
         return expenses;
     }
 
-    private List<Expense> filterDataByMonth(Integer monthIndex) {
+    private List<ExpenseDTO> filterDataByMonth(Integer monthIndex) {
+        List<ExpenseDTO> expenseDTOs = new ArrayList<>();
         System.out.println("UserService.filterDataByMonth() --> is called");
         List<Expense> expenses = getAll();
-//        expenses = expenses.stream().filter(ele -> ele.getTimestamp().getMonth() == monthIndex)
-//                .collect(Collectors.toList());
-        return expenses;
+        expenses = expenses.stream().filter(ele -> DateUtil.getMonthFromMilliseconds(ele.getEntryDate()) == monthIndex)
+                .collect(Collectors.toList());
+
+        for (Expense expense : expenses) {
+            ExpenseDTO convertExpenseToExpenseDTO = ExpenseTransformer.convertExpenseToExpenseDTO(expense);
+            expenseDTOs.add(convertExpenseToExpenseDTO);
+        }
+        return expenseDTOs;
     }
 }
